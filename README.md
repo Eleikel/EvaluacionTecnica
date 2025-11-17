@@ -134,8 +134,6 @@ O desde Visual Studio: presiona **F5** o haz clic en el botón "▶ Iniciar"
 | PUT | `/api/Role/{id}` | Actualizar un rol existente |
 | DELETE | `/api/Role/{id}` | Eliminar un rol |
 
-> **Nota**: Reemplaza `[recurso]` con el nombre del controlador específico de tu aplicación.
-
 ---
 
 ## 🐛 Solución de Problemas
