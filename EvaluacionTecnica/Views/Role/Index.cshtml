@@ -1,0 +1,220 @@
+﻿@model IEnumerable<EvaluacionTecnica.Business.ViewModels.Roles.RoleViewModel>
+
+@{
+    ViewData["Title"] = "Roles";
+}
+
+
+<div class="container my-5">
+    <div class="card card-roles p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h2 class="page-title">Gestión de Roles</h2>
+                <small class="text-muted">Administra los roles del sistema</small>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <a asp-action="Create" class="btn btn-outline-primary btn-sm mr-2">
+                    <i class="bi bi-plus-circle me-1"></i> Crear Rol
+                </a>
+            </div>
+        </div>
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["Error"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+
+        <div class="row align-items-center mb-3">
+            <div class="col-md-6 col-sm-12 mb-2 mb-md-0">
+                <form method="get" class="d-flex form-search rounded-pill-input">
+                    <div class="input-group search-input">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-white border-right-0">
+                                <i class="bi bi-search"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="search" class="form-control border-left-0" value="@ViewBag.Search" placeholder="Buscar rol..." aria-label="Buscar rol" />
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary">Buscar</button>
+                        </div>
+                    </div>
+
+                    <button type="button" id="btnClearSearch" class="btn btn-light border btn-clear" title="Limpiar búsqueda">
+                        <i class="bi bi-x-lg"></i> 
+                    </button>
+                </form>
+            </div>
+
+            <div class="col-md-6 text-md-right text-sm-left">
+                <small class="text-muted">Mostrando página @ViewBag.Page de @ViewBag.TotalPages</small>
+            </div>
+        </div>
+
+        @if (!Model?.Any() ?? true)
+        {
+            <div class="empty-state">
+                <i class="bi bi-people" style="font-size: 36px;"></i>
+                <h5 class="mt-2">No se encuentran roles</h5>
+              
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive mt-3">
+                <table class="table table-hover table-sm table-minimal mb-0">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">ID</th>
+                            <th>Nombre</th>
+                            <th style="width: 140px;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rolesTable">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="align-middle">
+                                    <span class="badge-id">@item.Id</span>
+                                </td>
+                                <td class="text-left align-middle">@item.Name</td>
+                                <td class="align-middle">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-icon btn-outline-warning mr-1" data-toggle="tooltip" title="Editar">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-icon btn-outline-danger btn-delete" data-toggle="tooltip" title="Eliminar">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <nav aria-label="Pagination" class="mt-3">
+                <ul class="pagination justify-content-center mb-0">
+                    @{
+                        int total = ViewBag.TotalPages ?? 1;
+                        int current = ViewBag.Page ?? 1;
+                    }
+                    <li class="page-item @(current == 1 ? "disabled" : "")">
+                        <a class="page-link" href="?page=@(current-1)&search=@ViewBag.Search" aria-label="Anterior">&laquo;</a>
+                    </li>
+
+                    @for (int i = 1; i <= total; i++)
+                    {
+                        <li class="page-item @(i == current ? "active" : "")" aria-current="@(i == current ? "page" : "")">
+                            <a class="page-link" href="?page=@i&search=@ViewBag.Search">@i</a>
+                        </li>
+                    }
+
+                    <li class="page-item @(current == total ? "disabled" : "")">
+                        <a class="page-link" href="?page=@(current+1)&search=@ViewBag.Search" aria-label="Siguiente">&raquo;</a>
+                    </li>
+                </ul>
+            </nav>
+        }
+    </div>
+</div>
+
+<style>
+    .card-roles {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(20, 24, 31, 0.06);
+    }
+
+    .page-title {
+        font-weight: 600;
+        letter-spacing: -0.2px;
+        margin: 0;
+    }
+
+    .search-input {
+        min-width: 260px;
+        flex: 1 1 auto;
+    }
+
+    .table-minimal thead th {
+        border-bottom: none;
+        font-weight: 600;
+        background: transparent;
+    }
+
+    .table-minimal tbody tr {
+        transition: background .12s ease;
+    }
+
+        .table-minimal tbody tr:hover {
+            background: rgba(0,0,0,0.03);
+        }
+
+    .badge-id {
+        background: rgba(0,0,0,0.05);
+        color: #222;
+        font-weight: 600;
+        border-radius: 6px;
+        padding: 4px 8px;
+        font-size: 0.85rem;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 36px 16px;
+        color: #6c757d;
+    }
+
+    .rounded-pill-input .form-control {
+        border-radius: 999px;
+    }
+
+    .btn-icon {
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+    }
+
+    .btn-clear {
+        margin-left: 12px;
+    }
+
+</style>
+
+@section Scripts {
+ 
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $("#rolesTable tr").hover(
+                function () { $(this).addClass("table-active"); },
+                function () { $(this).removeClass("table-active"); }
+            );
+
+            // limpiar el filtro de busqueda
+            $("#btnClearSearch").on("click", function () {
+                $("input[name='search']").val("");
+                $(this).closest("form").submit();
+            });
+
+            if ($(".alert-danger").length > 0) {
+                setTimeout(function () {
+                    $(".alert-danger").fadeOut('slow', function () {
+                        $(this).remove();
+                    });
+                }, 5000); 
+            }
+        });
+    </script>
+}

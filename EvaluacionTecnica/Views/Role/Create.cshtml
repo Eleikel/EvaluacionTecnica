@@ -1,0 +1,116 @@
+﻿@model EvaluacionTecnica.Business.ViewModels.Roles.RoleViewModel
+@{
+    var title = Model.Id == 0 ? "Crear Rol" : "Editar Rol";
+    ViewData["Title"] = title;
+}
+
+<div class="container">
+    <div class="form-card">
+        <div class="form-header">
+            <h2>@title</h2>
+        </div>
+        <form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Nombre</label>
+                <input asp-for="Name" class="form-control" placeholder="Ingrese el nombre del rol" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    .form-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        padding: 2rem;
+        margin-top: 2rem;
+    }
+
+    .form-header {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+        .form-header h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+    .form-label {
+        font-weight: 500;
+        color: #495057;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .form-control {
+        border: 1px solid #e1e8ed;
+        border-radius: 8px;
+        padding: 0.65rem 1rem;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.15rem rgba(0,123,255,0.1);
+        }
+
+    .form-actions {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #e9ecef;
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    .btn {
+        padding: 0.65rem 1.75rem;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        border: none;
+    }
+
+    .btn-primary {
+        background: #007bff;
+        color: white;
+    }
+
+        .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+        }
+
+    .btn-secondary {
+        background: #f8f9fa;
+        color: #6c757d;
+        border: 1px solid #dee2e6;
+    }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+    .text-danger {
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+        display: block;
+    }
+</style>

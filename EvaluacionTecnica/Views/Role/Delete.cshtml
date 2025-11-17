@@ -1,0 +1,50 @@
+﻿@model EvaluacionTecnica.Business.ViewModels.Roles.RoleViewModel
+
+@{
+    ViewData["Title"] = "Eliminar Rol";
+}
+
+<div class="container my-5 d-flex justify-content-center">
+    <div class="card delete-card p-4 text-center">
+        <div class="delete-icon text-danger mb-3">
+            <i class="bi bi-exclamation-circle" style="font-size: 48px;"></i>
+        </div>
+
+        <h4 class="mb-3">
+            ¿Estás seguro que deseas eliminar el rol
+            <strong>@Model.Name</strong>?
+        </h4>
+
+        <p class="text-muted mb-4">Esta acción no se puede deshacer.</p>
+
+        <form asp-action="DeleteConfirmed" method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="d-flex justify-content-center gap-3 mt-3">
+                <button type="submit" class="btn btn-danger btn-lg px-4">
+                    <i class="bi bi-trash"></i> Eliminar
+                </button>
+                <a asp-action="Index" class="btn btn-light border btn-lg px-4">
+                    <i class="bi bi-x-circle"></i> Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .delete-card {
+        max-width: 520px;
+        border: none;
+        border-radius: 14px;
+        box-shadow: 0 6px 18px rgba(20, 24, 31, 0.06);
+    }
+
+    .delete-icon i {
+        opacity: 0.85;
+    }
+
+    .btn-lg {
+        border-radius: 10px;
+    }
+</style>
